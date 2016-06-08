@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode=build",
-    "dev": "webpack-dev-server --progress --colors --watch --mode=dev",
+    "dev": "webpack-dev-server --progress --colors --watch --mode=dev --content-base=example",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
   "license": "MIT",

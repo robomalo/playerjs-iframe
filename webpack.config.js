@@ -15,6 +15,7 @@ var config = {
   //devtool: "source-map",
   output: {
     path: path.join(__dirname, "dist"),
+    publicPath: "/", // server `playerjs-iframe.js` from http root
     filename: pkg.name + ".js",
     library: pkg.name,
     libraryTarget: "umd",

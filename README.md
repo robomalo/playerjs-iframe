@@ -14,4 +14,4 @@ To dev...
 npm run dev
 ```
 
-and open http://localhost:8080/example to see it in usage
+and open [http://localhost:8080](http://localhost:8080) to see it in use.
