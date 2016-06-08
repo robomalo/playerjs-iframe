@@ -1,0 +1,58 @@
+{
+  "ecmaFeatures": {
+    "globalReturn": true,
+    "modules": true
+  },
+
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+
+  "globals": {
+    "document": false,
+    "escape": false,
+    "navigator": false,
+    "unescape": false,
+    "window": false,
+    "describe": true,
+    "before": true,
+    "it": true,
+    "expect": true,
+    "sinon": true
+  },
+
+  "parser": "babel-eslint",
+
+  "plugins": [
+
+  ],
+
+  "rules": {
+    "block-scoped-var": 2,
+    "brace-style": [2, "stroustrup"],
+    "camelcase": 1,
+    "curly": 2,
+    "eol-last": 2,
+    "eqeqeq": [2, "smart"],
+    "max-depth": [1, 8],
+    "new-cap": [1, {
+      "capIsNewExceptions": ["Number", "Boolean", "String", "Color", "Null", "List", "Map", "Error"]
+    }],
+    "no-extend-native": 2,
+    "no-mixed-spaces-and-tabs": 2,
+    "no-trailing-spaces": 2,
+    "no-use-before-define": [2, "nofunc"],
+    "no-unused-vars": [1, {
+      "vars": "all",
+      "args": "none"
+    }],
+    "quotes": [2, "double", "avoid-escape"],
+    "semi": [2, "always"],
+    "space-after-keywords": [2, "always"],
+    "object-curly-spacing": [2, "never"],
+    "computed-property-spacing": [2, "never"],
+    "array-bracket-spacing": [2, "never"]
+  }
+}
