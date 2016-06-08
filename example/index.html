@@ -4,11 +4,28 @@
 <title>Player.js Example</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdn.embed.ly/player-0.0.11.min.js"></script>
+<style>
+body {
+  font-size: 10px;
+}
+img, iframe {
+  display: block;
+  width: 250px;
+  height: 140px;
+}
+</style>
 </head>
 <body>
+  <h1>Player.js iframe examples...</h1>
+
+  <h2>simple iframe with events</h2>
   <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen="1"></iframe>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI" frameborder="0" allowfullscreen="1" data-autoplay="true"></iframe>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen="1"></iframe>
+
+  <h2>autoplaying iframe</h2>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen="1" data-autoplay="true"></iframe>
+
+  <h2>image replaced with autoplaying iframe on click</h2>
+  <img src="https://i.ytimg.com/vi/y3yRv5Jg5TI/hqdefault.jpg" data-src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI"/>
 <script>
 // useful for debugging...
 window.addEventListener("message", function() {
@@ -16,6 +33,19 @@ window.addEventListener("message", function() {
 });
 
 $(document).ready(function() {
+  $("img").on("click", function() {
+    var $img = $(this);
+    var iframe = document.createElement("iframe");
+    iframe.src = $img.data("src");
+    iframe.frameBorder = "0";
+    iframe.allowfullscreen = "1";
+    iframe.scrolling = "no";
+    $img.replaceWith(iframe);
+    var player = new playerjs.Player(iframe);
+    player.on("ready", function() {
+      player.play();
+    });
+  });
   // get each iframe
   $("iframe").each(function() {
     // create a player.js instance of the iframe...
@@ -41,15 +71,8 @@ $(document).ready(function() {
 
       // if autoplay...
       if (isAutoplay) {
-        // seek to 2:40
-        player.setCurrentTime(160);
         // then play the video
         player.play();
-
-        // then pause after 40s
-        window.setTimeout(function() {
-          player.pause();
-        }, 40000);
       }
     });
   });
