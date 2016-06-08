@@ -4,17 +4,14 @@
   "description": "Easily create player.js compliant iframes",
   "main": "dist/playerjs-iframe.js",
   "private": true,
-
   "scripts": {
     "build": "webpack --mode=build",
-    "dev": "webpack --progress --colors --watch --mode=dev",
+    "dev": "webpack-dev-server --progress --colors --watch --mode=dev",
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
-
   "license": "MIT",
   "author": "Eugene ONeill",
   "homepage": "https://github.com/eoneill/playerjs-iframe",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/eoneill/playerjs-iframe.git"
@@ -34,6 +31,7 @@
     "eslint-loader": "1.1.0",
     "mocha": "2.3.4",
     "webpack": "1.12.9",
+    "webpack-dev-server": "1.14.1",
     "yargs": "3.32.0"
   },
   "keywords": [
