@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Player.js Example</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://cdn.embed.ly/player-0.0.11.min.js"></script>
+</head>
+<body>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen="1"></iframe>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI" frameborder="0" allowfullscreen="1" data-autoplay="true"></iframe>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen="1"></iframe>
+<script>
+// useful for debugging...
+window.addEventListener("message", function() {
+  console.log("[consumer#message]", arguments);
+});
+
+$(document).ready(function() {
+  // get each iframe
+  $("iframe").each(function() {
+    // create a player.js instance of the iframe...
+    var player = new playerjs.Player(this);
+    // determine whether or not to autoplay the iframe
+    var isAutoplay = $(this).data("autoplay");
+    // when the player is ready...
+    player.on("ready", function() {
+      console.log("[player.js#ready]");
+      // when the player plays...
+      player.on("play", function() {
+        console.log("[player.js#play]");
+      });
+      // when the player pauses...
+      player.on("pause", function() {
+        console.log("[player.js#pause]");
+      });
+
+      // example of getter method...
+      player.getDuration(function(duration) {
+        console.log("[player.js#duration]", duration);
+      });
+
+      // if autoplay...
+      if (isAutoplay) {
+        // seek to 2:40
+        player.setCurrentTime(160);
+        // then play the video
+        player.play();
+
+        // then pause after 40s
+        window.setTimeout(function() {
+          player.pause();
+        }, 40000);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
