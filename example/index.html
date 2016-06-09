@@ -9,9 +9,21 @@ body {
   font-size: 10px;
 }
 img, iframe {
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
   width: 250px;
   height: 140px;
+}
+textarea {
+  font-family: monospace;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  height: 140px;
+  border: 0;
+  padding: 0;
+  margin-left: 10px;
+  resize: none;
 }
 </style>
 </head>
@@ -19,13 +31,16 @@ img, iframe {
   <h1>Player.js iframe examples...</h1>
 
   <h2>simple iframe with events</h2>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen="1"></iframe>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen></iframe>
 
   <h2>autoplaying iframe</h2>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen="1" data-autoplay="true"></iframe>
+  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen data-autoplay="true" data-seek="10"></iframe>
 
   <h2>image replaced with autoplaying iframe on click</h2>
   <img src="https://i.ytimg.com/vi/y3yRv5Jg5TI/hqdefault.jpg" data-src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI"/>
+
+  <h2>Vimeo example with auto-seek/auto-play</h2>
+  <iframe src="./embed.html?adapter=vimeo&amp;videoId=169697352" frameborder="0" allowfullscreen data-autoplay="true" data-seek="20"></iframe>
 <script>
 // useful for debugging...
 window.addEventListener("message", function() {
@@ -50,27 +65,46 @@ $(document).ready(function() {
   $("iframe").each(function() {
     // create a player.js instance of the iframe...
     var player = new playerjs.Player(this);
+    var $this = $(this);
+    var $log = $(document.createElement("textarea"));
+    $log.attr("disabled", true);
+    $this.after($log);
+
+    function log() {
+      var args = [].slice.apply(arguments);
+      console.log.apply(console, args);
+      $log.val($log.val() + "\n" + args.join(" "));
+    }
+
     // determine whether or not to autoplay the iframe
-    var isAutoplay = $(this).data("autoplay");
     // when the player is ready...
     player.on("ready", function() {
-      console.log("[player.js#ready]");
+      log("[player.js#ready]");
       // when the player plays...
       player.on("play", function() {
-        console.log("[player.js#play]");
+        log("[player.js#play]");
       });
       // when the player pauses...
       player.on("pause", function() {
-        console.log("[player.js#pause]");
+        log("[player.js#pause]");
+      });
+      // when the player ends...
+      player.on("ended", function() {
+        log("[player.js#ended]");
       });
 
       // example of getter method...
       player.getDuration(function(duration) {
-        console.log("[player.js#duration]", duration);
+        log("[player.js#duration]", duration);
       });
 
+      // if seek time is set...
+      if ($this.data("seek")) {
+        player.setCurrentTime($this.data("seek"));
+      }
+
       // if autoplay...
-      if (isAutoplay) {
+      if ($this.data("autoplay")) {
         // then play the video
         player.play();
       }
