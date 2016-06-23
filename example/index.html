@@ -2,45 +2,53 @@
 <html lang="en">
 <head>
 <title>Player.js Example</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="https://cdn.embed.ly/player-0.0.11.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="//cdn.embed.ly/player-0.0.11.min.js"></script>
 <style>
-body {
-  font-size: 10px;
-}
-img, iframe {
-  display: inline-block;
-  vertical-align: middle;
-  width: 250px;
-  height: 140px;
-}
-textarea {
-  font-family: monospace;
-  display: inline-block;
-  vertical-align: middle;
-  width: 200px;
-  height: 140px;
-  border: 0;
-  padding: 0;
-  margin-left: 10px;
-  resize: none;
-}
+  body {
+    font-size: 10px;
+  }
+  img,
+  iframe {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+    height: 140px;
+  }
+  textarea {
+    font-family: monospace;
+    display: inline-block;
+    vertical-align: middle;
+    width: 200px;
+    height: 140px;
+    border: 0;
+    padding: 0;
+    margin-left: 10px;
+    resize: none;
+  }
 </style>
 </head>
 <body>
   <h1>Player.js iframe examples...</h1>
 
   <h2>simple iframe with events</h2>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen></iframe>
+  <!-- <iframe src="./embed.html?adapter=youtube&amp;videoId=_OBlgSz8sSM" frameborder="0" allowfullscreen></iframe> -->
 
   <h2>autoplaying iframe</h2>
-  <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen data-autoplay="true" data-seek="10"></iframe>
+  <!-- <iframe src="./embed.html?adapter=youtube&amp;videoId=FzRH3iTQPrk" frameborder="0" allowfullscreen data-autoplay="true" data-seek="10"></iframe> -->
 
   <h2>image replaced with autoplaying iframe on click</h2>
-  <img src="https://i.ytimg.com/vi/y3yRv5Jg5TI/hqdefault.jpg" data-src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI"/>
+  <!-- <img src="https://i.ytimg.com/vi/y3yRv5Jg5TI/hqdefault.jpg" data-src="./embed.html?adapter=youtube&amp;videoId=y3yRv5Jg5TI"/> -->
 
   <h2>Vimeo example with auto-seek/auto-play</h2>
-  <iframe src="./embed.html?adapter=vimeo&amp;videoId=169697352" frameborder="0" allowfullscreen data-autoplay="true" data-seek="20"></iframe>
+  <!-- <iframe src="./embed.html?adapter=vimeo&amp;videoId=169697352" frameborder="0" allowfullscreen data-autoplay="true" data-seek="20"></iframe> -->
+
+  <h2>YouTube</h2>
+  <iframe class="embedly-embed" src="./embed.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2Fy71r1jhMdRk%3Ffeature%3Doembed&amp;url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dy71r1jhMdRk&amp;image=https%3A%2F%2Fi.ytimg.com%2Fvi%2Fy71r1jhMdRk%2Fhqdefault.jpg&amp;key=03fb819bf74246bf972444a07b738ad0&amp;type=text%2Fhtml&amp;schema=youtube" width="854" height="480" scrolling="no" frameborder="0" allowfullscreen="" allowtransparency="true" aria-labelledby="a11y-6149668359572045824" title="" tabindex="0"></iframe>
+
+  <h2>Vimeo</h2>
+  <iframe class="embedly-embed" src="./embed.html?src=https%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F&amp;url=https%3A%2F%2Fvimeo.com%2F100167538&amp;image=http%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F481567973_1280.jpg&amp;key=03fb819bf74246bf972444a07b738ad0&amp;type=text%2Fhtml&amp;schema=vimeo" width="1920" height="1080" scrolling="no" frameborder="0" allowfullscreen="" allowtransparency="true" aria-labelledby="a11y-6149689092222238720" title="" tabindex="0"></iframe>
+
 <script>
 // useful for debugging...
 window.addEventListener("message", function() {
@@ -61,12 +69,14 @@ $(document).ready(function() {
       player.play();
     });
   });
+
   // get each iframe
   $("iframe").each(function() {
     // create a player.js instance of the iframe...
     var player = new playerjs.Player(this);
     var $this = $(this);
     var $log = $(document.createElement("textarea"));
+
     $log.attr("disabled", true);
     $this.after($log);
 
@@ -80,21 +90,24 @@ $(document).ready(function() {
     // when the player is ready...
     player.on("ready", function() {
       log("[player.js#ready]");
+
       // when the player plays...
       player.on("play", function() {
         log("[player.js#play]");
       });
+
       // when the player pauses...
       player.on("pause", function() {
         log("[player.js#pause]");
       });
+
       // when the player ends...
       player.on("ended", function() {
         log("[player.js#ended]");
       });
 
       // example of getter method...
-      player.getDuration(function(duration) {
+      player.getDuration(function (duration) {
         log("[player.js#duration]", duration);
       });
 

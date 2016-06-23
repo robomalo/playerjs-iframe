@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-</style>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  </style>
 </head>
 <body>
 <script src="/playerjs-iframe.js"></script>
 <script>
-var DEBUG=true;
-(function() {
-  // get the videoId / adapter from the URL
-  var url = new URL(window.location.href);
-  var config = {
-    videoId: url.searchParams.get("videoId"),
-    adapter: url.searchParams.get("adapter")
-  };
+  var DEBUG = true;
 
-  // create a new instance of the PlayerjsIframe with the config
-  var PlayerjsIframe = window["playerjs-iframe"];
-  var playerjsIframe = new PlayerjsIframe(config);
-  // load the video
-  playerjsIframe.load();
-}());
+  (function() {
+    // get the videoId / adapter from the URL
+    var url = new URL(window.location.href);
+
+    var config = {
+      adapter: url.searchParams.get('schema'),
+      url: url.searchParams.get('url'),
+      key: url.searchParams.get('key')
+    };
+
+    // create a new instance of the PlayerjsIframe with the config
+    var PlayerjsIframe = window['playerjs-iframe'];
+    var playerjsIframe = new PlayerjsIframe(config);
+
+    // load the video
+    playerjsIframe.load();
+  })();
 </script>
 </body>
 </html>

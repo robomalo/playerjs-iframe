@@ -10,7 +10,16 @@
     "test": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
   "license": "MIT",
-  "author": "Eugene ONeill",
+  "contributors": [
+    {
+      "name": "Eugene ONeill",
+      "url": "https://github.com/eoneill"
+    },
+    {
+      "name": "John Robinson Jr.",
+      "url": "https://github.com/robomalo"
+    }
+  ],
   "homepage": "https://github.com/eoneill/playerjs-iframe",
   "repository": {
     "type": "git",
@@ -25,6 +34,9 @@
     "babel-eslint": "5.0.0",
     "babel-loader": "6.1.0",
     "babel-plugin-add-module-exports": "0.1.2",
+    "babel-plugin-transform-class-properties": "^6.10.2",
+    "babel-plugin-transform-es2015-classes": "^6.9.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-object-rest-spread": "6.8.0",
     "babel-preset-es2015": "6.3.13",
     "chai": "3.4.1",
