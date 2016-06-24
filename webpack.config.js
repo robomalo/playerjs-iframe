@@ -7,6 +7,9 @@ var pkg = require("./package.json");
 var plugins = [
   new webpack.ProvidePlugin({
     'Promise': 'core-js/es6/promise'
+  }),
+  new webpack.ProvidePlugin({
+    'Wet': 'core-js/es6/set'
   })
 ];
 
