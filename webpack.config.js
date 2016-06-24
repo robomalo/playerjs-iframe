@@ -4,7 +4,11 @@ var path = require("path");
 var env = require("yargs").argv.mode;
 var pkg = require("./package.json");
 
-var plugins = [];
+var plugins = [
+  new webpack.ProvidePlugin({
+    'Promise': 'core-js/es6/promise'
+  })
+];
 
 if (env === "build") {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
