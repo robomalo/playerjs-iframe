@@ -59,12 +59,16 @@ $(document).ready(function() {
   $("img").on("click", function() {
     var $img = $(this);
     var iframe = document.createElement("iframe");
+    var player;
+
     iframe.src = $img.data("src");
     iframe.frameBorder = "0";
     iframe.allowfullscreen = "1";
     iframe.scrolling = "no";
     $img.replaceWith(iframe);
-    var player = new playerjs.Player(iframe);
+
+    player = new playerjs.Player(iframe);
+
     player.on("ready", function() {
       player.play();
     });
@@ -89,6 +93,8 @@ $(document).ready(function() {
     // determine whether or not to autoplay the iframe
     // when the player is ready...
     player.on("ready", function() {
+      player.play();
+
       log("[player.js#ready]");
 
       // when the player plays...
