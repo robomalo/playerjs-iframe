@@ -1,0 +1,101 @@
+html,
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 62.5%;
+  color: #213F51;
+}
+
+main {
+  margin: 20px auto;
+  width: 640px;
+}
+
+img,
+iframe {
+  display: block;
+  margin: 20px 0;
+  width: 640px;
+  height: 360px;
+}
+
+/**
+ * Typography
+ */
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.4rem;
+  line-height: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+  line-height: 2.4rem;
+}
+
+/**
+ * Controls
+ */
+
+.controls {
+  margin: 20px 0;
+}
+
+.controls__set,
+button {
+  background: white;
+  border: 1px solid #009BDE;
+  border-radius: 2px;
+  padding: 2px 4px 4px;
+  display: inline-block;
+  margin: 0 4px 5px 0;
+  padding: 2px 8px 4px;
+}
+
+label,
+button {
+  font-size: 1.6rem;
+  color: #009BDE;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+input[type='range'] {
+  transform: translateY(3px);
+}
+
+/**
+ * Status
+ */
+
+#status {
+  background: white;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, .2);
+  color: #009BDE;
+  font-size: 2rem;
+  height: 20px;
+  line-height: 2rem;
+  margin: 0 -20px;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 640px;
+  transition: .5s margin-top;
+}
+
+#status.hidden {
+  margin-top: -63px;
+}
+
+#status.active {
+  margin-top: 0;
+}

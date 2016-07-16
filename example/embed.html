@@ -20,6 +20,8 @@
 <script>
   var DEBUG = true;
 
+  var iframeConfig = {configShit};
+
   (function () {
     // get the videoId / adapter from the URL
     var url = new URL(window.location.href);
@@ -32,10 +34,7 @@
 
     // create a new instance of the PlayerjsIframe with the config
     var PlayerjsIframe = window['playerjs-iframe'];
-    var playerjsIframe = new PlayerjsIframe(config);
-
-    // load the video
-    playerjsIframe.load();
+    var playerjsIframe = PlayerjsIframe.new(config);
   })();
 </script>
 </body>

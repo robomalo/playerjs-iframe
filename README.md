@@ -2,14 +2,14 @@
 
 TODO
 
-##
-
 To build...
+
 ```
 npm run build
 ```
 
 To dev...
+
 ```
 npm run dev
 ```
