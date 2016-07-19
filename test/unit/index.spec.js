@@ -1,7 +1,7 @@
 import playerjsIframe from '../../lib/index';
 
-describe('PlayerJs Iframe Class', () => {
-  it('should do stuff', () => {
-    expect(playerjsIframe).to.be.ok;
+describe('PlayerJs Iframe', () => {
+  it('should be available as an object', () => {
+    expect(playerjsIframe).to.be.an('object');
   });
 });

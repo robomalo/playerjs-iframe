@@ -6,7 +6,7 @@ webpackConfig.entry = {};
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'sinon', 'chai'],
+    frameworks: ['mocha', 'chai', 'sinon'],
     files: [
       {
         pattern: './test/unit/**/*.spec.js',
@@ -18,7 +18,7 @@ module.exports = function (config) {
     colors: true,
     port: 9876,
     preprocessors: {
-      './lib/**/*.js': ['webpack', 'coverage'],
+      './lib/**/*.js': ['webpack'],
       './test/unit/**/*.spec.js': ['webpack']
     },
     webpack: webpackConfig,
@@ -27,13 +27,13 @@ module.exports = function (config) {
     },
     autoWatch: true,
     logLevel: config.LOG_INFO,
-    reporters: ['progress', 'coverage'],
+    reporters: ['mocha'],
     browsers: ['PhantomJS'],
     singleRun: false,
     plugins: [
       'karma-chai',
-      'karma-coverage',
       'karma-mocha',
+      'karma-mocha-reporter',
       'karma-sinon',
       'karma-phantomjs-launcher-nonet',
       require('karma-webpack')
