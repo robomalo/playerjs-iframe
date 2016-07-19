@@ -1,3 +1,7 @@
+/**
+ * Layout
+ */
+
 html,
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -9,6 +13,7 @@ main {
   margin: 20px auto;
   width: 640px;
 }
+
 
 img,
 iframe {
@@ -29,7 +34,7 @@ h2 {
 
 h1 {
   font-size: 2.4rem;
-  line-height: 3rem;
+  line-height: 3.2rem;
 }
 
 h2 {

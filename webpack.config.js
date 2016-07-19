@@ -1,50 +1,64 @@
-var webpack = require("webpack");
+var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require("path");
-var env = require("yargs").argv.mode;
-var pkg = require("./package.json");
+var path = require('path');
+var env = require('yargs').argv.mode;
 
 var plugins = [
   new webpack.ProvidePlugin({
     'Promise': 'core-js/es6/promise'
   }),
   new webpack.ProvidePlugin({
-    'Wet': 'core-js/es6/set'
+    'Set': 'core-js/es6/set'
   })
 ];
 
-if (env === "build") {
+if (env === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
 }
 
 var config = {
-  entry: path.join(__dirname, "lib", "index.js"),
-  //devtool: "source-map",
+  entry: path.join(__dirname, 'lib', 'index.js'),
   output: {
-    path: path.join(__dirname, "dist"),
-    publicPath: "/", // server `playerjs-iframe.js` from http root
-    filename: pkg.name + ".js",
-    library: pkg.name,
-    libraryTarget: "umd",
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'playerjs-iframe.js',
+    library: 'playerjsIframe',
+    libraryTarget: 'umd',
     umdNamedDefine: true
   },
   module: {
     loaders: [
       {
-        test: /(\.jsx|\.js)$/,
+        test: /\.js$/,
         loader: "babel",
-        exclude: /(node_modules|bower_components)/
+        include: [
+          path.resolve(__dirname, 'lib'),
+          path.resolve(__dirname, 'test')
+        ],
+        query: {
+          presets: ['es2015'],
+          plugins: [
+            'babel-plugin-add-module-exports',
+            'transform-class-properties',
+            'transform-es2015-classes',
+            'transform-es2015-destructuring',
+            'transform-object-rest-spread'
+          ]
+        }
       },
       {
-        test: /(\.jsx|\.js)$/,
+        test: /\.js$/,
         loader: "eslint-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, 'lib')
+        ]
       }
     ]
   },
   resolve: {
-    root: path.resolve("./lib"),
-    extensions: ["", ".js"]
+    root: path.resolve('./lib'),
+    extensions: ['', '.js']
   },
   plugins: plugins
 };
