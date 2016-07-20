@@ -78,7 +78,7 @@ describe('VimeoAdapter', () => {
 
   context('#unmute', () => {
     it('should unmute by setting volume to last volume', () => {
-      vimeo.mute();
+      vimeo.unmute();
 
       expect(mockApi.setVolume.calledOnce).to.be.true;
     });
