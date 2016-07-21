@@ -1,5 +1,5 @@
-import Messenger from '../../../lib/messenger';
-import BaseAdapter from '../../../lib/adapters/base';
+import Messenger from '../../../src/messenger';
+import BaseAdapter from '../../../src/adapters/base';
 
 describe('BaseAdapter', () => {
   let messenger,

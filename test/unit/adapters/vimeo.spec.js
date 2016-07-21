@@ -1,4 +1,4 @@
-import VimeoAdapter from '../../../lib/adapters/vimeo';
+import VimeoAdapter from '../../../src/adapters/vimeo';
 
 describe('VimeoAdapter', () => {
   const deferred = {

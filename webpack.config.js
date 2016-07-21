@@ -17,7 +17,7 @@ if (env === 'build') {
 }
 
 var config = {
-  entry: path.join(__dirname, 'lib', 'index.js'),
+  entry: path.join(__dirname, 'src', 'index.js'),
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
@@ -32,7 +32,7 @@ var config = {
         test: /\.js$/,
         loader: "babel",
         include: [
-          path.resolve(__dirname, 'lib'),
+          path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'test')
         ],
         query: {
@@ -51,13 +51,13 @@ var config = {
         loader: "eslint-loader",
         exclude: /node_modules/,
         include: [
-          path.resolve(__dirname, 'lib')
+          path.resolve(__dirname, 'src')
         ]
       }
     ]
   },
   resolve: {
-    root: path.resolve('./lib'),
+    root: path.resolve('./src'),
     extensions: ['', '.js']
   },
   plugins: plugins

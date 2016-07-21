@@ -1,6 +1,6 @@
-import adapters from '../../lib/adapters';
-import YouTubeAdapter from '../../lib/adapters/youtube';
-import playerjsIframe from '../../lib';
+import adapters from '../../src/adapters';
+import YouTubeAdapter from '../../src/adapters/youtube';
+import playerjsIframe from '../../src';
 
 describe('PlayerJs Iframe', () => {
   context('#create', () => {

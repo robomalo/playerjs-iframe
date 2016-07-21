@@ -18,7 +18,7 @@ module.exports = function (config) {
     colors: true,
     port: 9876,
     preprocessors: {
-      './lib/**/*.js': ['webpack'],
+      './src/**/*.js': ['webpack'],
       './test/unit/**/*.spec.js': ['webpack']
     },
     webpack: webpackConfig,

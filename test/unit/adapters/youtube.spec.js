@@ -1,4 +1,4 @@
-import YouTubeAdapter from '../../../lib/adapters/youtube';
+import YouTubeAdapter from '../../../src/adapters/youtube';
 
 describe('YouTubeAdapter', () => {
   const mockApi = {

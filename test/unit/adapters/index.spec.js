@@ -1,6 +1,6 @@
-import VimeoAdapter from '../../../lib/adapters/vimeo';
-import YouTubeAdapter from '../../../lib/adapters/youtube';
-import adapters from '../../../lib/adapters';
+import VimeoAdapter from '../../../src/adapters/vimeo';
+import YouTubeAdapter from '../../../src/adapters/youtube';
+import adapters from '../../../src/adapters';
 
 describe('Adapters', () => {
   it('should have a Vimeo adapter', () => {
