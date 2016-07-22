@@ -1,6 +1,6 @@
 import getScript from '../../../src/util/get-script';
 
-describe.only('getScript()', () => {
+describe('getScript()', () => {
   const src = '//ajax.googleapis.com/ajax/libs/hammerjs/2.0.8/hammer.min.js';
   const query = `script[src="${src}"]`;
 
