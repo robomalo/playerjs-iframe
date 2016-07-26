@@ -10,27 +10,26 @@ describe('getScript()', () => {
     if (el) {
       el.parentNode.removeChild(el);
     }
-
-    return Promise.resolve();
   });
 
-  it('should add script tag to DOM', () => {
-    return getScript(src).then(() => {
+  it('should add script tag to DOM', (done) => {
+    getScript(src).then(() => {
       expect(document.querySelector(query)).to.be.ok;
+      done();
     });
   });
 
-  it('should not duplicate script tags', () => {
+  it('should not duplicate script tags', (done) => {
     let firstScriptResolved = false;
 
-    return getScript(src).then(() => {
+    getScript(src).then(() => {
       firstScriptResolved = true;
 
       return getScript(src);
-    }).catch((message) => {
+    }).then(() => {
       expect(firstScriptResolved).to.be.true;
-      expect(message).to.contain('already exists');
       expect(document.querySelectorAll(query)).to.have.length.of(1);
+      done();
     });
   });
 });

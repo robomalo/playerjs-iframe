@@ -26,7 +26,7 @@ module.exports = function (config) {
       noInfo: true
     },
     autoWatch: true,
-    autoWatchBatchDelay: 500,
+    autoWatchBatchDelay: 1000,
     logLevel: config.LOG_INFO,
     reporters: ['mocha'],
     browsers: ['PhantomJS'],

@@ -49,9 +49,7 @@ export default class YouTubeAdapter extends BaseAdapter {
     let getApi = new Promise((resolve, reject) => {
       window.onYouTubeIframeAPIReady = resolve;
 
-      getScript(YOUTUBE_API_SCRIPT).catch((message) => {
-        console.warn(message);
-      });
+      getScript(YOUTUBE_API_SCRIPT);
     });
 
     getApi.then(() => this.init());

@@ -27,7 +27,15 @@ describe('VimeoAdapter', () => {
       this.player = mockApi;
     });
 
-    vimeo = new VimeoAdapter({}, mockMessenger);
+    vimeo = new VimeoAdapter({
+      url: 'https://vimeo.com/100167538',
+      image: 'http://i.vimeocdn.com/video/481567973_1280.jpg',
+      videoId: '100167538',
+      key: '03fb819bf74246bf972444a07b738ad0',
+      schema: 'vimeo',
+      src: 'https://player.vimeo.com/video/',
+      type: 'text/html'
+    }, mockMessenger);
 
     vimeo.init();
   });

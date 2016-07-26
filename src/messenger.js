@@ -11,23 +11,25 @@ export default class Messenger {
    */
   constructor(config = {}) {
     this.config = config;
-    this.listeners = {};
 
     this.bindEvents();
   }
 
   /**
-   * [bindEvents description]
-   * @return {[type]} [description]
+   * Listeners container
+   * @type {Object}
+   */
+  listeners = {};
+
+  /**
+   * Bind events
    */
   bindEvents() {
-    // Handle all calls to `addEventListener`
     this.on(METHODS.ADD_EVENT_LISTENER, (value, data) => {
       this.listeners[data.value] = new Set(this.listeners[data.value]);
       this.listeners[data.value].add(data.listener);
     });
 
-    // Handle all calls to `removeEventListener`
     this.on(METHODS.REMOVE_EVENT_LISTENER, (value, data) => {
       if (this.listeners[data.value]) {
         this.listeneres[data.value].delete(data.listener);
@@ -43,15 +45,12 @@ export default class Messenger {
   on(method, callback) {
     window.addEventListener('message', (event) => {
       // TODO - security - origin check
+
       try {
-        // parse the data
         let data = JSON.parse(event.data);
 
-        // if a context is set, check that the context matches
         if (!this.config.context || (data.context === this.config.context)) {
-          // if the method is the one we want...
           if (data.method === method && callback) {
-            // invoke the callback
             callback(data.value, data);
           }
         }
@@ -72,7 +71,6 @@ export default class Messenger {
       };
     }
 
-    // augment the data payload with config defaults
     data = Object.keys(this.config).reduce((data, key) => {
       if (!data.hasOwnProperty(key)) {
         data[key] = this.config[key];
@@ -81,16 +79,14 @@ export default class Messenger {
       return data;
     }, data || {});
 
-    // if it's the 'ready' event, emit now
     if (data.event === EVENTS.READY) {
       postMessage(data);
     } else {
-      // if the data object already has a listener, broadcast to that listener only
-      // otherwise, broadcast to ALL known listeners for the given event
       let listeners = data.listener ? [data.listener] : this.listeners[data.event] || [];
 
       listeners.forEach((listener) => {
         data.listener = listener;
+
         postMessage(data);
       });
     }
@@ -104,8 +100,8 @@ export default class Messenger {
    * @param {*} value - the value to return
    */
   returns(data = {}, value = '') {
-    data.value = value;
     data.event = data.method || data.event;
+    data.value = value;
 
     delete data.method;
 

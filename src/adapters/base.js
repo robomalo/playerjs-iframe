@@ -23,7 +23,6 @@ export default class BaseAdapter {
       });
     });
 
-    // Register addEventListener+removeEventListener if player supports events
     if (this.supportedEvents.length > 0) {
       this.supportedMethods.push(
         METHODS.ADD_EVENT_LISTENER,
@@ -31,7 +30,6 @@ export default class BaseAdapter {
       );
     }
 
-    // Emit that the player is ready
     this.messenger.emit({
       event: EVENTS.READY,
       value: {

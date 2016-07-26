@@ -25,7 +25,7 @@ export default function getScript(src) {
   return new Promise((resolve, reject) => {
     // Do not embed the script if it already exists
     if (document.querySelector(`script[src="${src}"]`)) {
-      reject(`${src} already exists`);
+      resolve();
 
       return;
     }

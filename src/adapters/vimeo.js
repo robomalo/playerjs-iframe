@@ -42,9 +42,7 @@ export default class VimeoAdapter extends BaseAdapter {
     super(...arguments);
 
     let getApi = new Promise((resolve, reject) => {
-      getScript(VIMEO_API_SCRIPT).then(resolve).catch((message) => {
-        console.warn(message);
-      });
+      getScript(VIMEO_API_SCRIPT).then(resolve);
     });
 
     getApi.then(() => this.init());
