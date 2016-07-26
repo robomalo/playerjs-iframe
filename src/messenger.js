@@ -44,7 +44,11 @@ export default class Messenger {
    */
   on(method, callback) {
     window.addEventListener('message', (event) => {
-      // TODO - security - origin check
+      let origin = event.origin || event.originalEvent.origin;
+
+      if (origin !== this.config.targetOrigin) {
+        return;
+      }
 
       try {
         let data = JSON.parse(event.data);
@@ -80,14 +84,14 @@ export default class Messenger {
     }, data || {});
 
     if (data.event === EVENTS.READY) {
-      postMessage(data);
+      postMessage(data, this.config.targetOrigin);
     } else {
       let listeners = data.listener ? [data.listener] : this.listeners[data.event] || [];
 
       listeners.forEach((listener) => {
         data.listener = listener;
 
-        postMessage(data);
+        postMessage(data, this.config.targetOrigin);
       });
     }
 

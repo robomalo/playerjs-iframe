@@ -17,7 +17,10 @@ const playerjsIframe = {
       throw new Error(`No adapter for ${config.schema}`);
     }
 
-    return new Adapter(config, new Messenger({ context: CONTEXT }));
+    return new Adapter(config, new Messenger({
+      context: CONTEXT,
+      targetOrigin: config.targetOrigin
+    }));
   },
 
   /**

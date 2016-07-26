@@ -55,7 +55,8 @@
       src: src,
       type: type,
       url: url,
-      videoId: getVideoId(schema, url)
+      videoId: getVideoId(schema, url),
+      targetOrigin: window.location.origin
     };
 
     var player = window.playerjsIframe.create(config);
