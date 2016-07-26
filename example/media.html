@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+<script src="/playerjs-iframe.js"></script>
+<script>
+  (function () {
+    function getVideoId(schema, url) {
+      var urlObj = new URL(url);
+      var videoId;
+
+      switch (schema) {
+        case 'vimeo':
+          videoId = urlObj.pathname.split('/')[1];
+          break;
+
+        case 'youtube':
+          videoId = urlObj.searchParams.get('v');
+          break;
+
+        default:
+          videoId = '';
+      }
+
+      return videoId;
+    }
+
+    var iframeUrl = new URL(window.location.href);
+
+    var image = iframeUrl.searchParams.get('image');
+    var key = iframeUrl.searchParams.get('key');
+    var schema = iframeUrl.searchParams.get('schema');
+    var src = iframeUrl.searchParams.get('src');
+    var type = iframeUrl.searchParams.get('type');
+    var url = iframeUrl.searchParams.get('url');
+
+    var config = {
+      image: image,
+      key: key,
+      schema: schema,
+      src: src,
+      type: type,
+      url: url,
+      videoId: getVideoId(schema, url)
+    };
+
+    var player = window.playerjsIframe.create(config);
+  })();
+</script>
+</body>
+</html>
