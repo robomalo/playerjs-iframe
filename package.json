@@ -1,6 +1,6 @@
 {
   "name": "playerjs-iframe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Easily create player.js compliant iframes",
   "main": "./dist/playerjs-iframe.js",
   "private": false,
@@ -20,13 +20,13 @@
       "url": "https://github.com/robomalo"
     }
   ],
-  "homepage": "https://github.com/eoneill/playerjs-iframe",
+  "homepage": "https://github.com/robomalo/playerjs-iframe",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eoneill/playerjs-iframe.git"
+    "url": "https://github.com/robomalo/playerjs-iframe.git"
   },
   "bugs": {
-    "url": "https://github.com/eoneill/playerjs-iframe/issues"
+    "url": "https://github.com/robomalo/playerjs-iframe/issues"
   },
   "devDependencies": {
     "babel": "6.3.13",
