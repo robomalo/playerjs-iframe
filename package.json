@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Easily create player.js compliant iframes",
   "main": "./dist/playerjs-iframe.js",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --mode=build",
     "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --watch --mode=dev --content-base=example",
