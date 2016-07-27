@@ -5,7 +5,7 @@
 ## Installation
 
 ```
-$ npm install --save-dev eyeglass-restyle
+$ npm install playerjs-iframe --save-dev
 ```
 
 ## Supported Adapters

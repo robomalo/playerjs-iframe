@@ -1,6 +1,6 @@
 {
   "name": "playerjs-iframe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Easily create player.js compliant iframes",
   "main": "./dist/playerjs-iframe.js",
   "private": false,
