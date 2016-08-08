@@ -39,7 +39,6 @@
     var iframeUrl = new URL(window.location.href);
 
     var image = iframeUrl.searchParams.get('image');
-    var key = iframeUrl.searchParams.get('key');
     var schema = iframeUrl.searchParams.get('schema');
     var src = iframeUrl.searchParams.get('src');
     var type = iframeUrl.searchParams.get('type');
@@ -47,7 +46,6 @@
 
     var config = {
       image: image,
-      key: key,
       schema: schema,
       src: src,
       type: type,
