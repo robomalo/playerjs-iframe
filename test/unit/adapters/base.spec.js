@@ -6,7 +6,10 @@ describe('BaseAdapter', () => {
       baseAdapter;
 
   before(() => {
-    messenger = new Messenger({ context: 'test' });
+    messenger = new Messenger({
+      context: 'test',
+      targetOrigin: window.location.origin
+    });
     baseAdapter = new BaseAdapter({ foo: 'bar' }, messenger);
   });
 
