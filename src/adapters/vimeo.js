@@ -1,5 +1,4 @@
 import BaseAdapter from './base';
-import Iframe from '../util/iframe';
 import getScript from '../util/get-script';
 import { METHODS, EVENTS } from '../constants';
 
@@ -52,11 +51,11 @@ export default class VimeoAdapter extends BaseAdapter {
    * Initialize the player
    */
   init() {
-    let iframe = new Iframe(`${this.config.src}${this.config.videoId}`);
-
-    iframe.appendTo(document.body);
-
-    this.player = new Vimeo.Player(iframe.iframe);
+    this.player = new Vimeo.Player(document.body, {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      id: this.config.videoId
+    });
 
     this.player.ready().then(() => {
       SUPPORTED_EVENTS.forEach((eventName) => {
