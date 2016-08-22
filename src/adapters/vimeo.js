@@ -61,8 +61,8 @@ export default class VimeoAdapter extends BaseAdapter {
 
     this.player.ready().then(() => {
       SUPPORTED_EVENTS.forEach((eventName) => {
-        this.player.on(eventName, () => {
-          this.messenger.emit(eventName);
+        this.player.on(eventName, (data) => {
+          this.messenger.emit(eventName, data);
         });
       });
 
