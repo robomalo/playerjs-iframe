@@ -44,7 +44,7 @@ describe('YouTubeAdapter', () => {
     it('should play', () => {
       youtube.play();
 
-      expect(mockApi.playVideo.calledOnce).to.be.true;
+      assert(mockApi.playVideo.calledOnce);
     });
   });
 
@@ -52,7 +52,7 @@ describe('YouTubeAdapter', () => {
     it('should pause', () => {
       youtube.pause();
 
-      expect(mockApi.pauseVideo.calledOnce).to.be.true;
+      assert(mockApi.pauseVideo.calledOnce);
     });
   });
 
@@ -60,8 +60,8 @@ describe('YouTubeAdapter', () => {
     it('should get paused', () => {
       youtube.getPaused();
 
-      expect(mockApi.getPlayerState.calledOnce).to.be.true;
-      expect(mockMessenger.returns.calledOnce).to.be.true;
+      assert(mockApi.getPlayerState.calledOnce);
+      assert(mockMessenger.returns.calledOnce);
     });
   });
 
@@ -69,7 +69,7 @@ describe('YouTubeAdapter', () => {
     it('should mute', () => {
       youtube.mute();
 
-      expect(mockApi.mute.calledOnce).to.be.true;
+      assert(mockApi.mute.calledOnce);
     });
   });
 
@@ -77,7 +77,7 @@ describe('YouTubeAdapter', () => {
     it('should unmute', () => {
       youtube.unmute();
 
-      expect(mockApi.unMute.calledOnce).to.be.true;
+      assert(mockApi.unMute.calledOnce);
     });
   });
 
@@ -85,8 +85,8 @@ describe('YouTubeAdapter', () => {
     it('should get muted', () => {
       youtube.getMuted();
 
-      expect(mockApi.isMuted.calledOnce).to.be.true;
-      expect(mockMessenger.returns.calledOnce).to.be.true;
+      assert(mockApi.isMuted.calledOnce);
+      assert(mockMessenger.returns.calledOnce);
     });
   });
 
@@ -94,8 +94,8 @@ describe('YouTubeAdapter', () => {
     it('should set volume', () => {
       youtube.setVolume({ value: 75 });
 
-      expect(mockApi.setVolume.calledOnce).to.be.true;
-      expect(mockApi.setVolume.calledWithExactly(75)).to.be.true;
+      assert(mockApi.setVolume.calledOnce);
+      assert(mockApi.setVolume.calledWithExactly(75));
     });
   });
 
@@ -103,8 +103,8 @@ describe('YouTubeAdapter', () => {
     it('should get volume', () => {
       youtube.getVolume();
 
-      expect(mockApi.getVolume.calledOnce).to.be.true;
-      expect(mockMessenger.returns.calledOnce).to.be.true;
+      assert(mockApi.getVolume.calledOnce);
+      assert(mockMessenger.returns.calledOnce);
     });
   });
 
@@ -112,8 +112,8 @@ describe('YouTubeAdapter', () => {
     it('should get duration', () => {
       youtube.getDuration();
 
-      expect(mockApi.getDuration.calledOnce).to.be.true;
-      expect(mockMessenger.returns.calledOnce).to.be.true;
+      assert(mockApi.getDuration.calledOnce);
+      assert(mockMessenger.returns.calledOnce);
     });
   });
 
@@ -121,8 +121,8 @@ describe('YouTubeAdapter', () => {
     it('should set current time', () => {
       youtube.setCurrentTime({ value: 60 });
 
-      expect(mockApi.seekTo.calledOnce).to.be.true;
-      expect(mockApi.seekTo.calledWithExactly(60)).to.be.true;
+      assert(mockApi.seekTo.calledOnce);
+      assert(mockApi.seekTo.calledWithExactly(60));
     });
   });
 
@@ -130,8 +130,8 @@ describe('YouTubeAdapter', () => {
     it('should get current time', () => {
       youtube.getCurrentTime();
 
-      expect(mockApi.getCurrentTime.calledOnce).to.be.true;
-      expect(mockMessenger.returns.calledOnce).to.be.true;
+      assert(mockApi.getCurrentTime.calledOnce);
+      assert(mockMessenger.returns.calledOnce);
     });
   });
 });

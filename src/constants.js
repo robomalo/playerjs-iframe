@@ -25,6 +25,7 @@ export const METHODS = {
   GET_CURRENT_TIME:'getCurrentTime',
   SET_LOOP: 'setLoop',
   GET_LOOP: 'getLoop',
-  REMOVE_EVENT_LISTENER: 'removeEventListener',
-  ADD_EVENT_LISTENER: 'addEventListener'
+  SUPPORTS: 'supports',
+  ADD_EVENT_LISTENER: 'addEventListener',
+  REMOVE_EVENT_LISTENER: 'removeEventListener'
 };

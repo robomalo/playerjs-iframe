@@ -15,6 +15,13 @@ export default class BaseAdapter {
    * @function
    */
   ready() {
+    if (this.supportedEvents.length > 0) {
+      this.supportedMethods.push(
+        METHODS.ADD_EVENT_LISTENER,
+        METHODS.REMOVE_EVENT_LISTENER
+      );
+    }
+
     this.supportedMethods.forEach((method) => {
       this.messenger.on(method, (value, data) => {
         if (this[method]) {
@@ -22,13 +29,6 @@ export default class BaseAdapter {
         }
       });
     });
-
-    if (this.supportedEvents.length > 0) {
-      this.supportedMethods.push(
-        METHODS.ADD_EVENT_LISTENER,
-        METHODS.REMOVE_EVENT_LISTENER
-      );
-    }
 
     this.messenger.emit({
       event: EVENTS.READY,
@@ -51,4 +51,15 @@ export default class BaseAdapter {
    * @type {Array}
    */
   supportedMethods = [];
+
+  /**
+   * Check if method or event is supported
+   * @param {String} method - method or event name
+   * @param {String} name
+   */
+  supports(method, name) {
+    let key = method === 'method' ? 'supportedMethods' : 'supportedEvents';
+
+    return this[key].indexOf(key) > -1;
+  }
 }

@@ -43,6 +43,8 @@ function Controls(player, $controls) {
   this.$controlsGetDuration = $controls.find('.controls__get-duration');
   this.$controlsSetCurrentTime = $controls.find('.controls__set-current-time');
   this.$controlsGetCurrentTime = $controls.find('.controls__get-current-time');
+  this.$controlsSetLoop = $controls.find('[name^="set-loop"]');
+  this.$controlsGetLoop = $controls.find('.controls__get-loop');
 
   this.setDefaults();
   this.bindEvents();
@@ -121,6 +123,16 @@ Controls.prototype.bindEvents = function () {
       setStatus('Current time: ' + value);
     });
   });
+
+  this.$controlsSetLoop.on('change', function () {
+    player.setLoop(this.id.indexOf('true') > -1);
+  });
+
+  this.$controlsGetLoop.on('click', function () {
+    player.getLoop(function (value) {
+      setStatus('Loop: ' + value);
+    });
+  });
 };
 
 $(document).ready(function () {
@@ -131,6 +143,8 @@ $(document).ready(function () {
 
     player.on('ready', function () {
       var controls = new Controls(player, $controls);
+
+      player.mute();
     });
   });
 });

@@ -27,7 +27,7 @@ describe('getScript()', () => {
 
       return getScript(src);
     }).then(() => {
-      expect(firstScriptResolved).to.be.true;
+      assert(firstScriptResolved);
       expect(document.querySelectorAll(query)).to.have.length.of(1);
       done();
     });

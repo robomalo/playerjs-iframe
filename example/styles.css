@@ -14,8 +14,10 @@ main {
   width: 640px;
 }
 
+section {
+  border-top: 1px solid #ccc;
+}
 
-img,
 iframe {
   display: block;
   margin: 20px 0;
@@ -68,8 +70,16 @@ button {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-button {
+button,
+input[type='radio'] + label  {
   cursor: pointer;
+}
+
+input[type='radio'] {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: .75em;
+  transform: translateY(-1px);
 }
 
 input[type='range'] {

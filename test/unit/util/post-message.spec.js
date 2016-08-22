@@ -17,13 +17,13 @@ define('postMessage()', () => {
   it('should not call window.parent.postMessage() without targetOrigin', () => {
     postMessage(data);
 
-    expect(postMessageStub.called).to.be.false;
+    assert.isFalse(postMessageStub.called);
   });
 
   it('should call window.parent.postMessage()', () => {
     postMessage(data, targetOrigin);
 
-    expect(postMessageStub.called).to.be.true;
+    assert(postMessageStub.called);
   });
 
   it('should JSON.stringify the data', () => {

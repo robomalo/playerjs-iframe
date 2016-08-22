@@ -15,7 +15,9 @@ const SUPPORTED_METHODS = [
   METHODS.GET_VOLUME,
   METHODS.GET_DURATION,
   METHODS.SET_CURRENT_TIME,
-  METHODS.GET_CURRENT_TIME
+  METHODS.GET_CURRENT_TIME,
+  METHODS.SET_LOOP,
+  METHODS.GET_LOOP
 ];
 
 const SUPPORTED_EVENTS = [
@@ -180,6 +182,25 @@ export default class VimeoAdapter extends BaseAdapter {
   getCurrentTime(data) {
     this.player.getCurrentTime().then((seconds) => {
       this.messenger.returns(data, seconds);
+    });
+  }
+
+  /**
+   * Set loop state
+   * @param {Object} data
+   * @param {Boolean} data.value
+   */
+  setLoop(data) {
+    this.player.setLoop(data.value);
+  }
+
+  /**
+   * Get loop state
+   * @returns {Boolean}
+   */
+  getLoop(data) {
+    this.player.getLoop().then((loop) => {
+      this.messenger.returns(data, loop);
     });
   }
 
