@@ -1,3 +1,4 @@
+import getOrigin from './util/get-origin';
 import postMessage from './util/post-message';
 import { METHODS, EVENTS } from './constants';
 
@@ -11,6 +12,7 @@ export default class Messenger {
    */
   constructor(config = {}) {
     this.config = config;
+    this.origin = getOrigin(document.referrer);
 
     this.bindEvents();
   }
@@ -44,9 +46,7 @@ export default class Messenger {
    */
   on(method, callback) {
     window.addEventListener('message', (event) => {
-      let origin = event.origin || event.originalEvent.origin;
-
-      if (origin !== this.config.targetOrigin) {
+      if (event.origin !== this.origin) {
         return;
       }
 
@@ -84,14 +84,14 @@ export default class Messenger {
     }, data || {});
 
     if (data.event === EVENTS.READY) {
-      postMessage(data, this.config.targetOrigin);
+      postMessage(data, this.origin);
     } else {
       let listeners = data.listener ? [data.listener] : this.listeners[data.event] || [];
 
       listeners.forEach((listener) => {
         data.listener = listener;
 
-        postMessage(data, this.config.targetOrigin);
+        postMessage(data, this.origin);
       });
     }
 

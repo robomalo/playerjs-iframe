@@ -44,17 +44,13 @@
     var type = iframeUrl.searchParams.get('type');
     var url = iframeUrl.searchParams.get('url');
 
-    var referrer = document.referrer;
-    var URL_PATTERN = /^https?:\/\/([A-Za-z0-9-_\.]+)(:[0-9]+)?/;
-
     var config = {
       image: image,
       schema: schema,
       src: src,
       type: type,
       url: url,
-      videoId: getVideoId(schema, url),
-      targetOrigin: referrer && referrer.match(URL_PATTERN)[0]
+      videoId: getVideoId(schema, url)
     };
 
     var player = window.playerjsIframe.create(config);
