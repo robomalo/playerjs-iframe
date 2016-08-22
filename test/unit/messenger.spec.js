@@ -23,7 +23,7 @@ define('Messenger', () => {
     it('should format and emit the data', () => {
       messenger.returns({ method: 'foo' }, 'bar');
 
-      expect(emitStub.calledWithExactly({ event: 'foo', value: 'bar' })).to.be.true;
+      assert(emitStub.calledWithExactly({ event: 'foo', value: 'bar' }));
     });
   });
 });
