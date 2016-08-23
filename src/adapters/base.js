@@ -24,7 +24,7 @@ export default class BaseAdapter {
 
     this.supportedMethods.forEach((method) => {
       this.messenger.on(method, (value, data) => {
-        if (this[method]) {
+        if (this.supports('method', method)) {
           this[method](data);
         }
       });
@@ -60,6 +60,6 @@ export default class BaseAdapter {
   supports(method, name) {
     let key = method === 'method' ? 'supportedMethods' : 'supportedEvents';
 
-    return this[key].indexOf(key) > -1;
+    return this[key].indexOf(name) > -1;
   }
 }
