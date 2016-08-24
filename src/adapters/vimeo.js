@@ -60,9 +60,12 @@ export default class VimeoAdapter extends BaseAdapter {
     });
 
     this.player.ready().then(() => {
-      SUPPORTED_EVENTS.forEach((eventName) => {
-        this.player.on(eventName, (data) => {
-          this.messenger.emit(eventName, data);
+      SUPPORTED_EVENTS.forEach((event) => {
+        this.player.on(event, (value) => {
+          this.messenger.emit({
+            event: event,
+            value: value
+          });
         });
       });
 
@@ -100,9 +103,9 @@ export default class VimeoAdapter extends BaseAdapter {
    * Get paused status
    * @returns {boolean}
    */
-  getPaused(data) {
-    this.player.getPaused().then((paused) => {
-      this.messenger.returns(data, paused);
+  getPaused(returns) {
+    this.player.getPaused().then((isPaused) => {
+      returns(isPaused);
     });
   }
 
@@ -111,7 +114,7 @@ export default class VimeoAdapter extends BaseAdapter {
    */
   mute() {
     this.player.getVolume().then((volume) => {
-      this.lastVolume = volume;
+      this.lastVolume = volume * 100;
       this.player.setVolume(0);
     });
   }
@@ -120,28 +123,27 @@ export default class VimeoAdapter extends BaseAdapter {
    * Unmute audio by setting volume to volume before mute
    */
   unmute() {
-    this.player.setVolume(this.lastVolume);
+    this.setVolume(this.lastVolume);
   }
 
   /**
    * Get mute status
    * @return {boolean}
    */
-  getMuted(data) {
+  getMuted(returns) {
     this.player.getVolume().then((volume) => {
-      this.messenger.returns(data, volume === 0);
+      returns(volume === 0);
     });
   }
 
   /**
    * Set the volume
-   * @param {Object} data
-   * @param {Number} data.value - 0-100
+   * @param {Number} value - 0-100
    */
-  setVolume(data) {
+  setVolume(value) {
     // Vimeo API expects a value between 0-1
-    this.player.setVolume(data.value / 100).then((volume) => {
-      this.lastVolume = volume;
+    this.player.setVolume(value / 100).then((volume) => {
+      this.lastVolume = volume * 100;
     });
   }
 
@@ -149,64 +151,62 @@ export default class VimeoAdapter extends BaseAdapter {
    * Get the volume
    * @returns {Number} - 0-100
    */
-  getVolume(data) {
+  getVolume(returns) {
     this.player.getVolume().then((volume) => {
-      this.lastVolume = volume;
-      this.messenger.returns(data, Math.round(volume * 100));
+      this.lastVolume = volume * 100;
+      returns(this.lastVolume);
     });
   }
+
+  /**
+   * Volume default for mute/unmute
+   * @type {Number}
+   */
+  lastVolume = 100;
 
   /**
    * Get the duration in seconds
    * @returns {Number}
    */
-  getDuration(data) {
+  getDuration(returns) {
     this.player.getDuration().then((duration) => {
-      this.messenger.returns(data, duration);
+      returns(duration);
     });
   }
 
   /**
    * Set the current time in seconds
-   * @param {Object} data
-   * @param {Number} data.value - time in seconds
+   * @param {Number} value - time in seconds
    */
-  setCurrentTime(data) {
-    this.player.setCurrentTime(data.value);
+  setCurrentTime(value) {
+    this.player.setCurrentTime(value);
   }
 
   /**
    * Get current time in seconds
    * @returns {Number} seconds
    */
-  getCurrentTime(data) {
+  getCurrentTime(returns) {
     this.player.getCurrentTime().then((seconds) => {
-      this.messenger.returns(data, seconds);
+      returns(seconds);
     });
   }
 
   /**
    * Set loop state
-   * @param {Object} data
-   * @param {Boolean} data.value
+   * @param {Boolean} value
    */
-  setLoop(data) {
-    this.player.setLoop(data.value);
+  setLoop(value) {
+    this.player.setLoop(value);
   }
 
   /**
    * Get loop state
    * @returns {Boolean}
    */
-  getLoop(data) {
+  getLoop(returns) {
     this.player.getLoop().then((loop) => {
-      this.messenger.returns(data, loop);
+      returns(loop);
     });
   }
-
-  /**
-   * Volume default
-   * @type {Number}
-   */
-  static lastVolume = 100;
 }

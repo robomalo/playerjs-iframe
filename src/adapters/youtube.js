@@ -15,14 +15,17 @@ const SUPPORTED_METHODS = [
   METHODS.GET_VOLUME,
   METHODS.GET_DURATION,
   METHODS.SET_CURRENT_TIME,
-  METHODS.GET_CURRENT_TIME
+  METHODS.GET_CURRENT_TIME,
+  METHODS.SET_LOOP,
+  METHODS.GET_LOOP
 ];
 
 const SUPPORTED_EVENTS = [
   EVENTS.PLAY,
   EVENTS.PAUSE,
   EVENTS.ENDED,
-  EVENTS.ERROR
+  EVENTS.ERROR,
+  EVENTS.TIME_UPDATE
 ];
 
 const PLAYER_STATES = {
@@ -70,6 +73,9 @@ export default class YouTubeAdapter extends BaseAdapter {
       events: {
         onReady: () => {
           this.ready();
+
+          // Start polling for `timeupdate` changes
+          this.pollForUpdates();
         },
 
         onError: () => {
@@ -91,6 +97,12 @@ export default class YouTubeAdapter extends BaseAdapter {
 
           if (events[event.data]) {
             this.messenger.emit(events[event.data]);
+          }
+
+          // Loop the video if isLooping has been set true
+          if (event.data === 0 && this.isLooping) {
+            this.setCurrentTime(0);
+            this.play();
           }
         }
       }
@@ -127,8 +139,8 @@ export default class YouTubeAdapter extends BaseAdapter {
    * Return paused status
    * @returns {boolean}
    */
-  getPaused(data) {
-    this.messenger.returns(data, this.player.getPlayerState() === PLAYER_STATES.PAUSED);
+  getPaused(returns) {
+    returns(this.player.getPlayerState() === PLAYER_STATES.PAUSED);
   }
 
   /**
@@ -149,49 +161,107 @@ export default class YouTubeAdapter extends BaseAdapter {
    * Get video mute status
    * @return {boolean}
    */
-  getMuted(data) {
-    this.messenger.returns(data, this.player.isMuted());
+  getMuted(returns) {
+    returns(this.player.isMuted());
   }
 
   /**
    * Set the volume
-   * @param {Object} data
-   * @param {Number} data.value - 0-100
+   * @param {Number} value - 0-100
    */
-  setVolume(data) {
-    this.player.setVolume(data.value);
+  setVolume(value) {
+    this.player.setVolume(value);
   }
 
   /**
    * Get the volume
    * @returns {Number} - 0-100
    */
-  getVolume(data) {
-    this.messenger.returns(data, this.player.getVolume());
+  getVolume(returns) {
+    returns(this.player.getVolume());
   }
 
   /**
    * Get the duration in seconds
    * @returns {Number}
    */
-  getDuration(data) {
-    this.messenger.returns(data,  this.player.getDuration());
+  getDuration(returns) {
+    returns(this.player.getDuration());
   }
 
   /**
    * Set the current time in seconds
-   * @param {Object} data
-   * @param {Number} data.value - time in seconds
+   * @param {Number} value - time in seconds
    */
-  setCurrentTime(data) {
-    this.player.seekTo(data.value);
+  setCurrentTime(value) {
+    this.player.seekTo(value);
   }
 
   /**
    * Get current time in seconds
    * @returns {Number} seconds
    */
-  getCurrentTime(data) {
-    this.messenger.returns(data, this.player.getCurrentTime());
+  getCurrentTime(returns) {
+    returns(this.player.getCurrentTime());
+  }
+
+  /**
+   * Set loop state
+   * @param {Boolean} - value
+   */
+  setLoop(value) {
+    this.isLooping = value;
+  }
+
+  /**
+   * Get loop state
+   * @returns {Boolean}
+   */
+  getLoop(returns) {
+    returns(this.isLooping);
+  }
+
+  /**
+   * Loop state
+   * @type {Boolean}
+   */
+  static isLooping = false;
+
+  /**
+   * Poll for updates
+   * @param {Function} callback
+   */
+  pollForUpdates(callback) {
+    window.setInterval(() => {
+      this.onCurrentTimeChange((currentTime) => {
+        this.getDuration((duration) => {
+          this.messenger.emit({
+            event: EVENTS.TIME_UPDATE,
+            value: {
+              seconds: currentTime,
+              duration: duration
+            }
+          });
+        });
+      });
+    }, 250);
+  }
+
+  /**
+   * On time change
+   * @param {Function} callback
+   */
+  onCurrentTimeChange(callback) {
+    this.getPaused((isPaused) => {
+      if (!isPaused) {
+        this.getCurrentTime((currentTime) => {
+          if (this.lastTimeUpdate !== currentTime) {
+            this.lastTimeUpdate = currentTime;
+
+            callback(currentTime);
+          }
+        });
+      }
+    });
   }
 }

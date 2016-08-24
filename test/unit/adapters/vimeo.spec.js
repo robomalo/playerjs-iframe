@@ -20,9 +20,7 @@ describe('VimeoAdapter', () => {
     addEventListener: sinon.stub().returns(deferred)
   };
 
-  const mockMessenger = {
-    returns: sinon.spy()
-  };
+  const mockReturns = sinon.spy();
 
   let vimeo;
 
@@ -39,7 +37,7 @@ describe('VimeoAdapter', () => {
       schema: 'vimeo',
       src: 'https://player.vimeo.com/video/',
       type: 'text/html'
-    }, mockMessenger);
+    }, {});
 
     vimeo.init();
   });
@@ -50,7 +48,7 @@ describe('VimeoAdapter', () => {
 
   afterEach(() => {
     Object.keys(mockApi).forEach(m => mockApi[m].reset());
-    Object.keys(mockMessenger).forEach(m => mockMessenger[m].reset());
+    mockReturns.reset();
   });
 
   context('#play', () => {
@@ -71,10 +69,10 @@ describe('VimeoAdapter', () => {
 
   context('#getPaused', () => {
     it('should get paused', () => {
-      vimeo.getPaused();
+      vimeo.getPaused(mockReturns);
 
       assert(mockApi.getPaused.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
@@ -98,43 +96,43 @@ describe('VimeoAdapter', () => {
 
   context('#getMuted', () => {
     it('should get muted', () => {
-      vimeo.getMuted();
+      vimeo.getMuted(mockReturns);
 
       assert(mockApi.getVolume.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#setVolume', () => {
     it('should set volume', () => {
-      vimeo.setVolume({ value: 75 });
+      vimeo.setVolume(75);
 
       assert(mockApi.setVolume.calledOnce);
-      assert(mockApi.setVolume.calledWithExactly(0.75));
+      assert(mockApi.setVolume.calledWithExactly(0.75)); // formatedd
     });
   });
 
   context('#getVolume', () => {
     it('should get volume', () => {
-      vimeo.getVolume();
+      vimeo.getVolume(mockReturns);
 
       assert(mockApi.getVolume.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#getDuration', () => {
     it('should get duration', () => {
-      vimeo.getDuration();
+      vimeo.getDuration(mockReturns);
 
       assert(mockApi.getDuration.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#setCurrentTime', () => {
     it('should set current time', () => {
-      vimeo.setCurrentTime({ value: 60 });
+      vimeo.setCurrentTime(60);
 
       assert(mockApi.setCurrentTime.calledOnce);
       assert(mockApi.setCurrentTime.calledWithExactly(60));
@@ -143,15 +141,16 @@ describe('VimeoAdapter', () => {
 
   context('#getCurrentTime', () => {
     it('should get current time', () => {
-      vimeo.getCurrentTime();
+      vimeo.getCurrentTime(mockReturns);
 
       assert(mockApi.getCurrentTime.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#setLoop', () => {
     it('should set loop state', () => {
-      vimeo.setLoop({ value: true });
+      vimeo.setLoop(true);
 
       assert(mockApi.setLoop.calledWithExactly(true));
     });
@@ -159,10 +158,10 @@ describe('VimeoAdapter', () => {
 
   context('#getLoop', () => {
     it('get loop state', () => {
-      vimeo.getLoop();
+      vimeo.getLoop(mockReturns);
 
       assert(mockApi.getLoop.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 });

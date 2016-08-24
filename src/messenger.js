@@ -1,5 +1,4 @@
 import getOrigin from './util/get-origin';
-import postMessage from './util/post-message';
 import { METHODS, EVENTS } from './constants';
 
 /**
@@ -27,14 +26,27 @@ export default class Messenger {
    * Bind events
    */
   bindEvents() {
-    this.on(METHODS.ADD_EVENT_LISTENER, (value, data) => {
-      this.listeners[data.value] = new Set(this.listeners[data.value]);
-      this.listeners[data.value].add(data.listener);
+    this.on(METHODS.ADD_EVENT_LISTENER, (event, data) => {
+      if (event === EVENTS.READY && this.readyData) {
+        this.emit({ ...{}, ...this.readyData, ...{
+          listener: data.listener
+        } });
+      } else {
+        this.listeners[event] = this.listeners[event] || new Set();
+        this.listeners[event].add(data.listener);
+      }
     });
 
-    this.on(METHODS.REMOVE_EVENT_LISTENER, (value, data) => {
-      if (this.listeners[data.value]) {
-        this.listeneres[data.value].delete(data.listener);
+    this.on(METHODS.REMOVE_EVENT_LISTENER, (event, data) => {
+      // if we have listeners...
+      if (this.listeners[event]) {
+        if (data.listener) {
+          // remove the individual listener if specified
+          this.listeners[event].delete(data.listener);
+        } else {
+          // otherwise, remove them all
+          this.listeners[event] = new Set();
+        }
       }
     });
   }
@@ -50,15 +62,21 @@ export default class Messenger {
         return;
       }
 
-      try {
-        let data = JSON.parse(event.data);
+      let data = event.data;
 
-        if (!this.config.context || (data.context === this.config.context)) {
-          if (data.method === method && callback) {
-            callback(data.value, data);
-          }
+      if (typeof data === 'string') {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          data = {};
         }
-      } catch (e) {}
+      }
+
+      if (!this.config.context || (data.context === this.config.context)) {
+        if (data.method === method && callback) {
+          callback(data.value, data);
+        }
+      }
     });
 
     return this;
@@ -69,31 +87,38 @@ export default class Messenger {
    * @param {Object} data - the payload to message
    */
   emit(data) {
+    if (!this.origin) {
+      return;
+    }
+
     if (typeof data === 'string') {
       data = {
         event: data
       };
     }
 
-    data = Object.keys(this.config).reduce((data, key) => {
-      if (!data.hasOwnProperty(key)) {
-        data[key] = this.config[key];
+    // use the config for defaults
+    data = { ...{
+      context: this.config.context,
+      version: this.config.version
+    }, ...data };
+
+    let listeners = Array.from(data.listener ? [data.listener] : this.listeners[data.event] || []);
+
+    // ready event can fire without a listener
+    if (data.event === EVENTS.READY) {
+      listeners.push(null);
+    }
+
+    listeners.forEach((listener) => {
+      if (!listener) {
+        delete data.listener;
+      } else {
+        data.listener = listener;
       }
 
-      return data;
-    }, data || {});
-
-    if (data.event === EVENTS.READY) {
-      postMessage(data, this.origin);
-    } else {
-      let listeners = data.listener ? [data.listener] : this.listeners[data.event] || [];
-
-      listeners.forEach((listener) => {
-        data.listener = listener;
-
-        postMessage(data, this.origin);
-      });
-    }
+      window.parent.postMessage(JSON.stringify(data), this.origin);
+    });
 
     return this;
   }

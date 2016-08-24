@@ -15,9 +15,7 @@ describe('YouTubeAdapter', () => {
     getPlayerState: sinon.spy()
   };
 
-  const mockMessenger = {
-    returns: sinon.spy()
-  };
+  const mockReturns = sinon.spy();
 
   let youtube;
 
@@ -26,7 +24,7 @@ describe('YouTubeAdapter', () => {
       this.player = mockApi;
     });
 
-    youtube = new YouTubeAdapter({}, mockMessenger);
+    youtube = new YouTubeAdapter({}, {});
 
     youtube.init();
   });
@@ -37,7 +35,7 @@ describe('YouTubeAdapter', () => {
 
   afterEach(() => {
     Object.keys(mockApi).forEach(m => mockApi[m].reset());
-    Object.keys(mockMessenger).forEach(m => mockMessenger[m].reset());
+    mockReturns.reset();
   });
 
   context('#play', () => {
@@ -58,10 +56,10 @@ describe('YouTubeAdapter', () => {
 
   context('#getPaused', () => {
     it('should get paused', () => {
-      youtube.getPaused();
+      youtube.getPaused(mockReturns);
 
       assert(mockApi.getPlayerState.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
@@ -83,16 +81,16 @@ describe('YouTubeAdapter', () => {
 
   context('#getMuted', () => {
     it('should get muted', () => {
-      youtube.getMuted();
+      youtube.getMuted(mockReturns);
 
       assert(mockApi.isMuted.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#setVolume', () => {
     it('should set volume', () => {
-      youtube.setVolume({ value: 75 });
+      youtube.setVolume(75);
 
       assert(mockApi.setVolume.calledOnce);
       assert(mockApi.setVolume.calledWithExactly(75));
@@ -101,25 +99,25 @@ describe('YouTubeAdapter', () => {
 
   context('#getVolume', () => {
     it('should get volume', () => {
-      youtube.getVolume();
+      youtube.getVolume(mockReturns);
 
       assert(mockApi.getVolume.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#getDuration', () => {
     it('should get duration', () => {
-      youtube.getDuration();
+      youtube.getDuration(mockReturns);
 
       assert(mockApi.getDuration.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
     });
   });
 
   context('#setCurrentTime', () => {
     it('should set current time', () => {
-      youtube.setCurrentTime({ value: 60 });
+      youtube.setCurrentTime(60);
 
       assert(mockApi.seekTo.calledOnce);
       assert(mockApi.seekTo.calledWithExactly(60));
@@ -128,10 +126,28 @@ describe('YouTubeAdapter', () => {
 
   context('#getCurrentTime', () => {
     it('should get current time', () => {
-      youtube.getCurrentTime();
+      youtube.getCurrentTime(mockReturns);
 
       assert(mockApi.getCurrentTime.calledOnce);
-      assert(mockMessenger.returns.calledOnce);
+      assert(mockReturns.calledOnce);
+    });
+  });
+
+  context('#setLoop', () => {
+    it('should set loop', () => {
+      youtube.setLoop(true);
+
+      assert(youtube.isLooping);
+    });
+  });
+
+  context('#getLoop', () => {
+    it('should get loop', () => {
+      youtube.setLoop(true);
+      youtube.getLoop(mockReturns);
+
+      assert(mockReturns.calledOnce);
+      assert(mockReturns.calledWithExactly(true));
     });
   });
 });

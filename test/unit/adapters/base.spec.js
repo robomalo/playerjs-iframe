@@ -6,10 +6,11 @@ describe('BaseAdapter', () => {
       baseAdapter;
 
   before(() => {
-    messenger = new Messenger({
+    messenger = {
       context: 'test',
-      targetOrigin: window.location.origin
-    });
+      emit: sinon.spy(),
+      on: sinon.spy()
+    };
 
     baseAdapter = new BaseAdapter({ foo: 'bar' }, messenger);
 
@@ -17,29 +18,15 @@ describe('BaseAdapter', () => {
     baseAdapter.supportedEvents = ['pause'];
   });
 
-  context('#constructor', () => {
-    it('should set the config', () => {
-      expect(baseAdapter.config).to.be.an('object');
-    });
-
-    it('should set the messenger', () => {
-      expect(baseAdapter.messenger).to.be.an.instanceof(Messenger);
-    });
-  });
-
   context('#ready', () => {
-    before(() => {
-      let spy = sinon.spy(messenger, 'emit')
-
-      baseAdapter.ready();
-    });
-
     after(() => {
-      messenger.emit.restore();
+      messenger.emit.reset();
     });
 
     it('should emit the messenger ready event', () => {
-      expect(messenger.emit.calledOnce).to.equal(true);
+      baseAdapter.ready();
+
+      assert(messenger.emit.calledOnce);
     });
   });
 
@@ -53,18 +40,6 @@ describe('BaseAdapter', () => {
   context('#supportedMethods', () => {
     it('should have supported methods placeholder', () => {
       expect(baseAdapter.supportedMethods).to.be.an('array');
-    });
-  });
-
-  context('#supports', () => {
-    it('should check for suppported methods', () => {
-      assert(baseAdapter.supports('method', 'play'));
-      assert.isFalse(baseAdapter.supports('method', 'pause'));
-    });
-
-    it('should check for supported events', () => {
-      assert(baseAdapter.supports('event', 'pause'));
-      assert.isFalse(baseAdapter.supports('event', 'play'));
     });
   });
 });

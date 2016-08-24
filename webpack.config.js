@@ -41,7 +41,6 @@ var config = {
             'babel-plugin-add-module-exports',
             'transform-class-properties',
             'transform-es2015-classes',
-            'transform-es2015-destructuring',
             'transform-object-rest-spread'
           ]
         }
