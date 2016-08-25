@@ -89,14 +89,14 @@ export default class VimeoAdapter extends BaseAdapter {
    * Play the video
    */
   play() {
-    this.player.play();
+    this.next('play');
   }
 
   /**
    * Pause the video
    */
   pause() {
-    this.player.pause();
+    this.next('pause');
   }
 
   /**
@@ -208,5 +208,23 @@ export default class VimeoAdapter extends BaseAdapter {
     this.player.getLoop().then((loop) => {
       returns(loop);
     });
+  }
+
+  /**
+   * Waits for the current promise to resolve before invoking the provided method
+   * @param {String} name - the method name to invoke
+   */
+  next(name) {
+    let done = function () {
+      this.waitFor = this.player[name]();
+    }.bind(this);
+
+    if (this.waitFor) {
+      // if there's a current promise, wait for it...
+      this.waitFor.then(done, done);
+    } else {
+      // otherwise, do it now
+      done();
+    }
   }
 }

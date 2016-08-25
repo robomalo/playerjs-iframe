@@ -81,13 +81,13 @@ Controls.prototype.bindEvents = function () {
   });
 
   this.$controlsPlayReady.on('click', function () {
-    player.on('ready', function(){
+    player.on('ready', function () {
       player.play();
     });
   });
 
   this.$controlsPauseReady.on('click', function () {
-    player.on('ready', function(){
+    player.on('ready', function () {
       player.pause();
     });
   });
