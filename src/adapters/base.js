@@ -37,6 +37,16 @@ export default class BaseAdapter {
       );
     }
 
+    this.messenger.on(METHODS.ADD_EVENT_LISTENER, (event, data) => {
+      if (data.value === EVENTS.READY) {
+        this.emitReadyEvent();
+      }
+    });
+
+    this.emitReadyEvent();
+  }
+
+  emitReadyEvent() {
     this.readyData = {
       event: EVENTS.READY,
       value: {

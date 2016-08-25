@@ -33,7 +33,9 @@ function Controls(player, $controls) {
   this.player = player;
 
   this.$controlsPlay = $controls.find('.controls__play');
+  this.$controlsPlayReady = $controls.find('.controls__play_ready');
   this.$controlsPause = $controls.find('.controls__pause');
+  this.$controlsPauseReady = $controls.find('.controls__pause_ready');
   this.$controlsGetPaused = $controls.find('.controls__get-paused');
   this.$controlsMute = $controls.find('.controls__mute');
   this.$controlsUnmute = $controls.find('.controls__unmute');
@@ -76,6 +78,18 @@ Controls.prototype.bindEvents = function () {
 
   this.$controlsPause.on('click', function () {
     player.pause();
+  });
+
+  this.$controlsPlayReady.on('click', function () {
+    player.on('ready', function(){
+      player.play();
+    });
+  });
+
+  this.$controlsPauseReady.on('click', function () {
+    player.on('ready', function(){
+      player.pause();
+    });
   });
 
   this.$controlsGetPaused.on('click', function () {
