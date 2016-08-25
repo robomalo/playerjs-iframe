@@ -27,6 +27,7 @@ export default class Messenger {
    */
   bindEvents() {
     this.on(METHODS.ADD_EVENT_LISTENER, (event, data) => {
+      console.log(event, data);
       if (event === EVENTS.READY && this.readyData) {
         this.emit({ ...{}, ...this.readyData, ...{
           listener: data.listener

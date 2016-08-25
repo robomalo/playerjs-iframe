@@ -25,6 +25,8 @@ export default class BaseAdapter {
           } else {
             this[method](value);
           }
+
+          console.log(method, value, data);
         }
       });
     });
@@ -37,6 +39,16 @@ export default class BaseAdapter {
       );
     }
 
+    this.messenger.on(METHODS.ADD_EVENT_LISTENER, (event, data) => {
+      if (data.value === EVENTS.READY) {
+        this.readyEvent();
+      }
+    });
+
+    this.readyEvent();
+  }
+
+  readyEvent() {
     this.readyData = {
       event: EVENTS.READY,
       value: {
