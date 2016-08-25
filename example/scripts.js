@@ -156,14 +156,9 @@ $(document).ready(function () {
     var $controls = $iframe.next('.controls');
 
     player.on('ready', function () {
-      console.log('test');
       var controls = new Controls(player, $controls);
 
       player.mute();
-    });
-
-    player.on('play', function () {
-      console.log(arguments);
     });
   });
 });
