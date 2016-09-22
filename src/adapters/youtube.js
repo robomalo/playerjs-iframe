@@ -62,18 +62,34 @@ export default class YouTubeAdapter extends BaseAdapter {
    * Initialize the player
    */
   init() {
-    let videoContainer = document.createElement('div');
+    let videoIframe = document.createElement('iframe');
+    let iframeId = 'yt-iframe';
 
-    document.body.appendChild(videoContainer);
+    let src = `https://www.youtube.com/embed/${this.config.videoId}?enablejsapi=1&wmode=opaque&widgetid=1`;
 
-    this.player = new YT.Player(videoContainer, {
-      height: '100%',
-      width: '100%',
-      videoId: this.config.videoId,
+    if (this.config.playlistId) {
+      src += `&list=${this.config.playlistId}&listType=playlist`;
+    }
+
+    if (window.location && window.location.origin) {
+      src += `&origin=${encodeURIComponent(window.location.origin)}`;
+    }
+
+    videoIframe.id = iframeId;
+    videoIframe.src = src;
+    videoIframe.width = '100%';
+    videoIframe.height = '100%';
+    videoIframe.scrolling = 'no';
+    videoIframe.frameBorder = '0';
+    videoIframe.tabIndex = 0;
+    videoIframe.allowTransparency = true;
+
+    document.body.appendChild(videoIframe);
+
+    this.player = new YT.Player(iframeId, {
       events: {
         onReady: () => {
           this.ready();
-
           // Start polling for `timeupdate` changes
           this.pollForUpdates();
         },

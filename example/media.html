@@ -36,6 +36,22 @@
       return videoId;
     }
 
+    function getPlaylistId(schema, url) {
+      var urlObj = new URL(url);
+      var id;
+
+      switch (schema) {
+        case 'youtube':
+          id = urlObj.searchParams.get('list');
+          break;
+
+        default:
+          id = '';
+      }
+
+      return id;
+    }
+
     var iframeUrl = new URL(window.location.href);
 
     var image = iframeUrl.searchParams.get('image');
@@ -50,7 +66,8 @@
       src: src,
       type: type,
       url: url,
-      videoId: getVideoId(schema, url)
+      videoId: getVideoId(schema, url),
+      playlistId: getPlaylistId(schema, url)
     };
 
     var player = window.playerjsIframe.create(config);
