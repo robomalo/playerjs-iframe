@@ -1,6 +1,6 @@
 {
   "name": "playerjs-iframe",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Easily create player.js compliant iframes",
   "main": "./dist/playerjs-iframe.js",
   "private": false,
@@ -18,6 +18,10 @@
     {
       "name": "John Robinson Jr.",
       "url": "https://github.com/robomalo"
+    },
+    {
+      "name": "Shane Afsar",
+      "url": "https://github.com/ima007"
     }
   ],
   "homepage": "https://github.com/robomalo/playerjs-iframe",

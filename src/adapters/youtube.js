@@ -38,12 +38,42 @@ const PLAYER_STATES = {
 };
 
 /**
+ * https://developers.google.com/youtube/js_api_reference
+ * 2 – The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.
+ * 100 – The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.
+ * 101 – The owner of the requested video does not allow it to be played in embedded players.
+ * 150 – This error is the same as 101. It's just a 101 error in disguise!
+ */
+function errorReason(errorCode) {
+  let errorReason = '';
+
+  switch (errorCode) {
+    case 2:
+      errorReason = '[YouTube] The request contains an invalid parameter value.';
+      break;
+    case 100:
+      errorReason = '[YouTube] The video requested was not found.';
+      break;
+    case 101:
+    case 150:
+      errorReason = '[YouTube] The owner of the requested video does not allow it to be played in embedded players.';
+      break;
+    default:
+      errorReason = '[YouTube] Something went wrong.';
+  }
+  return errorReason;
+}
+
+/**
  * The YouTube video adapter interface
  */
 export default class YouTubeAdapter extends BaseAdapter {
   /**
    * Create a new YouTube adapter
-   * @param {Object} config - the configuration
+   * @param {Object} config Base configuration to init YouTube player.
+   * @param {string} [config.videoId] Optional only if playlistId is provided.
+   * @param {string} [config.playlistId] Optional only if videoId is provided.
+   * @param {string} [config.playlistType=playlist] Valid: playlist, search, or user_uploads.
    * @param {Messenger} messenger - the messenger instance
    */
   constructor() {
@@ -64,11 +94,18 @@ export default class YouTubeAdapter extends BaseAdapter {
   init() {
     let videoIframe = document.createElement('iframe');
     let iframeId = 'yt-iframe';
+    /**
+     * If there is no video ID, then default to empty.
+     */
+    if (!this.config.videoId) {
+      this.config.videoId = '';
+    }
 
     let src = `https://www.youtube.com/embed/${this.config.videoId}?enablejsapi=1&wmode=opaque&widgetid=1`;
 
     if (this.config.playlistId) {
-      src += `&list=${this.config.playlistId}&listType=playlist`;
+      let playlistType = this.config.playlistType || 'playlist';
+      src += `&list=${encodeURIComponent(this.config.playlistId)}&listType=${encodeURIComponent(playlistType)}`;
     }
 
     if (window.location && window.location.origin) {
@@ -83,6 +120,7 @@ export default class YouTubeAdapter extends BaseAdapter {
     videoIframe.frameBorder = '0';
     videoIframe.tabIndex = 0;
     videoIframe.allowTransparency = true;
+    videoIframe.allowFullscreen = true;
 
     document.body.appendChild(videoIframe);
 
@@ -94,12 +132,19 @@ export default class YouTubeAdapter extends BaseAdapter {
           this.pollForUpdates();
         },
 
-        onError: () => {
+        /**
+         * @param {Object} error - error object returned by YouTube
+         * @param {number} error.data - error code returned by YouTube
+         * @param {YT.Player} error.target - instance of YT player that returned error.
+         */
+        onError: (error) => {
+          let errorCode = error.data;
+
           this.messenger.emit({
             event: EVENTS.ERROR,
             value: {
-              code: -1,
-              msg: 'something went wrong'
+              code: errorCode,
+              msg: errorReason(errorCode)
             }
           });
         },
