@@ -26,6 +26,11 @@ var config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  devServer: {
+    host: '0.0.0.0',
+    inline: true,
+    port: 8080
+  },
   module: {
     loaders: [
       {

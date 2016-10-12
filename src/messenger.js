@@ -1,5 +1,8 @@
 import getOrigin from './util/get-origin';
+import arrayFrom from 'array.from';
 import { METHODS, EVENTS } from './constants';
+
+arrayFrom.shim();
 
 /**
  * Handles the sending and receiving of messages cross-window

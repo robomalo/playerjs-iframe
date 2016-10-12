@@ -1,4 +1,5 @@
 // Elements
+
 var $status = $('#status');
 var $statusMessage = $('#status__message');
 

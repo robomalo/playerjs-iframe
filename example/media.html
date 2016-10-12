@@ -16,17 +16,32 @@
 <script src="/playerjs-iframe.js"></script>
 <script>
   (function () {
+    function getParams(url) {
+      var params = url.split('?')[1].split('&');
+      var paramsObject = {};
+
+      for (var i = 0 ; i< params.length ; i++) {
+        var temp = params[i].split('=');
+        var key = temp[0];
+        var value = decodeURIComponent(temp[1]);
+        paramsObject[key] = value;
+      }
+
+      return paramsObject;
+    }
+
     function getVideoId(schema, url) {
-      var urlObj = new URL(url);
       var videoId;
+      var urlSplit;
 
       switch (schema) {
         case 'vimeo':
-          videoId = urlObj.pathname.split('/')[1];
+          urlSplit = url.split('/');
+          videoId = urlSplit[urlSplit.length - 1];
           break;
 
         case 'youtube':
-          videoId = urlObj.searchParams.get('v');
+          videoId = getParams(url).v;
           break;
 
         default:
@@ -37,12 +52,11 @@
     }
 
     function getPlaylistId(schema, url) {
-      var urlObj = new URL(url);
       var id;
 
       switch (schema) {
         case 'youtube':
-          id = urlObj.searchParams.get('list');
+          id = getParams(url).list;
           break;
 
         default:
@@ -52,19 +66,15 @@
       return id;
     }
 
-    var iframeUrl = new URL(window.location.href);
-
-    var image = iframeUrl.searchParams.get('image');
-    var schema = iframeUrl.searchParams.get('schema');
-    var src = iframeUrl.searchParams.get('src');
-    var type = iframeUrl.searchParams.get('type');
-    var url = iframeUrl.searchParams.get('url');
+    var paramsObject = getParams(window.location.href);
+    var schema = paramsObject.schema;
+    var url = paramsObject.url;
 
     var config = {
-      image: image,
+      image: paramsObject.image,
       schema: schema,
-      src: src,
-      type: type,
+      src: paramsObject.src,
+      type: paramsObject.type,
       url: url,
       videoId: getVideoId(schema, url),
       playlistId: getPlaylistId(schema, url)
