@@ -1,8 +1,5 @@
 import getOrigin from './util/get-origin';
-import arrayFrom from 'array.from';
 import { METHODS, EVENTS } from './constants';
-
-arrayFrom.shim();
 
 /**
  * Handles the sending and receiving of messages cross-window
@@ -35,8 +32,10 @@ export default class Messenger {
           listener: data.listener
         } });
       } else {
-        this.listeners[event] = this.listeners[event] || new Set();
-        this.listeners[event].add(data.listener);
+        this.listeners[event] = this.listeners[event] || [];
+        if (this.listeners[event].indexOf(data.listener) === -1) {
+          this.listeners[event].push(data.listener);
+        }
       }
     });
 
@@ -44,11 +43,15 @@ export default class Messenger {
       // if we have listeners...
       if (this.listeners[event]) {
         if (data.listener) {
+          let indexOfListener = this.listeners[event].indexOf(data.listener);
           // remove the individual listener if specified
-          this.listeners[event].delete(data.listener);
+          if (indexOfListener > -1) {
+            this.listeners[event].splice(indexOfListener, 1);
+          }
+
         } else {
           // otherwise, remove them all
-          this.listeners[event] = new Set();
+          this.listeners[event] = [];
         }
       }
     });
@@ -106,8 +109,7 @@ export default class Messenger {
       version: this.config.version
     }, ...data };
 
-    let listeners = Array.from(data.listener ? [data.listener] : this.listeners[data.event] || []);
-
+    let listeners = data.listener ? [data.listener] : this.listeners[data.event] || [];
     // ready event can fire without a listener
     if (data.event === EVENTS.READY) {
       listeners.push(null);
