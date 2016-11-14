@@ -53,10 +53,13 @@ export default class VimeoAdapter extends BaseAdapter {
    * Initialize the player
    */
   init() {
+    // Vimeo Player API prefers using the src URL (for unlisted videos).
+    let id = this.config.src || this.config.videoId;
+
     this.player = new Vimeo.Player(document.body, {
       width: window.innerWidth,
       height: window.innerHeight,
-      id: this.config.videoId
+      id: id
     });
 
     this.player.ready().then(() => {

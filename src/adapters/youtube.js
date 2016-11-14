@@ -92,8 +92,6 @@ export default class YouTubeAdapter extends BaseAdapter {
    * Initialize the player
    */
   init() {
-    let videoIframe = document.createElement('iframe');
-    let iframeId = 'yt-iframe';
     /**
      * If there is no video ID, then default to empty.
      */
@@ -112,15 +110,8 @@ export default class YouTubeAdapter extends BaseAdapter {
       src += `&origin=${encodeURIComponent(window.location.origin)}`;
     }
 
-    videoIframe.id = iframeId;
-    videoIframe.src = src;
-    videoIframe.width = '100%';
-    videoIframe.height = '100%';
-    videoIframe.scrolling = 'no';
-    videoIframe.frameBorder = '0';
-    videoIframe.tabIndex = 0;
-    videoIframe.allowTransparency = true;
-    videoIframe.allowFullscreen = true;
+    let videoIframe = this.createIframe(src);
+    let iframeId = videoIframe.id;
 
     document.body.appendChild(videoIframe);
 

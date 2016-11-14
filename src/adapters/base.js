@@ -10,6 +10,23 @@ export default class BaseAdapter {
     this.messenger = messenger;
   }
 
+  createIframe(src) {
+    let videoIframe = document.createElement('iframe');
+    let iframeId = 'embed-iframe';
+
+    videoIframe.id = iframeId;
+    videoIframe.src = src;
+    videoIframe.width = '100%';
+    videoIframe.height = '100%';
+    videoIframe.scrolling = 'no';
+    videoIframe.frameBorder = '0';
+    videoIframe.tabIndex = 0;
+    videoIframe.allowTransparency = true;
+    videoIframe.allowFullscreen = true;
+
+    return videoIframe;
+  }
+
   /**
    * Add messenger events
    * @function
