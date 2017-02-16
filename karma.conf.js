@@ -8,18 +8,21 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      {
-        pattern: './test/unit/**/*.spec.js',
-        watched: false,
-        included: true,
-        served: true
-      }
+      './test/main.spec.js'
     ],
     colors: true,
     port: 9876,
     preprocessors: {
-      './src/**/*.js': ['webpack'],
-      './test/unit/**/*.spec.js': ['webpack']
+      './test/main.spec.js': ['webpack', 'sourcemap', 'coverage'],
+    },
+    coverageReporter: {
+      // specify a common output directory
+      dir: 'coverage',
+      reporters: [
+        // reporters not supporting the `file` property
+        { type: 'html' },
+        { type: 'text'}
+      ]
     },
     webpack: webpackConfig,
     webpackMiddleware: {
@@ -28,17 +31,9 @@ module.exports = function (config) {
     autoWatch: true,
     autoWatchBatchDelay: 1000,
     logLevel: config.LOG_INFO,
-    reporters: ['mocha'],
+    reporters: ['mocha', 'progress', 'coverage'],
     browsers: ['PhantomJS'],
     singleRun: false,
-    plugins: [
-      'karma-chai',
-      'karma-mocha',
-      'karma-mocha-reporter',
-      'karma-sinon',
-      'karma-phantomjs-launcher-nonet',
-      require('karma-webpack')
-    ],
     phantomjsLauncher: {
       cmd: {
         linux: path.join(__dirname, 'node_modules/phantomjs/bin/phantomjs'),

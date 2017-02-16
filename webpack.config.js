@@ -32,6 +32,14 @@ var config = {
     port: 8080
   },
   module: {
+    rules: [
+      // instrument only testing sources with Istanbul
+      {
+          test: /\.js$/,
+          include: path.resolve(__dirname, 'src'),
+          loader: 'istanbul-instrumenter-loader'
+      }
+    ],
     loaders: [
       {
         test: /\.js$/,

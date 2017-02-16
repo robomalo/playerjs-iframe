@@ -21,6 +21,10 @@ describe('PlayerJs Iframe', () => {
     it('should return new instance of adapter', () => {
       expect(player.__proto__.constructor.name).to.equal('YouTubeAdapter');
     });
+
+    it('should throw an error without a proper schema', () => {
+      (() => playerjsIframe.create({schema:'fart'})).should.throw(Error);
+    });
   });
 
   context('#addAdapter', () => {
