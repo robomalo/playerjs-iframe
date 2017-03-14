@@ -1,6 +1,6 @@
 {
   "name": "playerjs-iframe",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Easily create player.js compliant iframes",
   "main": "./dist/playerjs-iframe.js",
   "private": false,
@@ -22,6 +22,10 @@
     {
       "name": "Shane Afsar",
       "url": "https://github.com/ima007"
+    },
+    {
+      "name": "Chris Ng",
+      "url": "https://github.com/chrisrng"
     }
   ],
   "homepage": "https://github.com/robomalo/playerjs-iframe",

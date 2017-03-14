@@ -22,7 +22,7 @@ export default class BaseAdapter {
     videoIframe.frameBorder = '0';
     videoIframe.tabIndex = 0;
     videoIframe.allowTransparency = true;
-    videoIframe.allowFullscreen = true;
+    videoIframe.setAttribute('allowfullscreen', '');
 
     return videoIframe;
   }
