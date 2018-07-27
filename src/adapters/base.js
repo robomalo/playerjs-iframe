@@ -23,6 +23,7 @@ export default class BaseAdapter {
     videoIframe.tabIndex = 0;
     videoIframe.allowTransparency = true;
     videoIframe.setAttribute('allowfullscreen', '');
+    videoIframe.setAttribute('allow','autoplay; encrypted-media');
 
     return videoIframe;
   }
