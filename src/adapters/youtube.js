@@ -99,7 +99,8 @@ export default class YouTubeAdapter extends BaseAdapter {
       this.config.videoId = '';
     }
 
-    let src = `https://www.youtube.com/embed/${this.config.videoId}?enablejsapi=1&wmode=opaque&widgetid=1`;
+    const domain = this.config.doNotTrack ? 'youtube-nocookie' : 'youtube';
+    let src = `https://www.${domain}.com/embed/${this.config.videoId}?enablejsapi=1&wmode=opaque&widgetid=1`;
 
     if (this.config.playlistId) {
       let playlistType = this.config.playlistType || 'playlist';
