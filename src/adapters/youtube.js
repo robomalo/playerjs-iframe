@@ -114,14 +114,6 @@ export default class YouTubeAdapter extends BaseAdapter {
     let videoIframe = this.createIframe(src);
     let iframeId = videoIframe.id;
 
-    // Add YouTube-specific iframe attributes
-    videoIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-
-    // Get existing allow permissions from base iframe and append web-share
-    let existingAllow = videoIframe.getAttribute('allow') || '';
-    let allowPermissions = existingAllow ? existingAllow + '; web-share' : 'web-share';
-    videoIframe.setAttribute('allow', allowPermissions);    
-
     document.body.appendChild(videoIframe);
 
     this.player = new YT.Player(iframeId, {
